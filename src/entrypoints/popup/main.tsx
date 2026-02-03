@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import "../../assets/style.css"
-import { ConfForm } from './components/ConfForm';
+import "@/assets/style.css";
+import ConfigForm from '@/components/ConfigForm';
+import Links from '@/components/Links';
 import { CircleUser, Github, Linkedin, Twitter } from 'lucide-react';
-import { Links } from './components/Links';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <p className='text-center text-sm text-gray-300'>Configure your form settings and preferences</p>
       <hr className='my-4' />
       {/* Configure form  */}
-      <ConfForm />
+      <ConfigForm />
       {/* links  */}
       <Links />
       {/* footer */}

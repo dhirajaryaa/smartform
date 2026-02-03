@@ -1,4 +1,5 @@
-import { CircleUser, Github, Linkedin, Twitter } from 'lucide-react'
+import { CircleUser, Github, Linkedin, Twitter } from 'lucide-react';
+
 function Links() {
     return (
         <div className='flex gap-4 items-center justify-center mt-4  pt-4 border-t border-gray-700'>
@@ -10,4 +11,4 @@ function Links() {
     )
 }
 
-export { Links }
+export default Links;
