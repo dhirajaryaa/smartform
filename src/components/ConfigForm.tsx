@@ -1,30 +1,30 @@
+import { useState } from "react";
+import { storage } from '#imports';
 import { ExternalLink, Eye, EyeOff, Save } from "lucide-react";
 import useFormData, { ConfigFormValue } from "@/hooks/useFormData";
-import { useState } from "react";
+import toast from "react-hot-toast";
 
 function ConfigForm() {
   const { formData, setFormData } = useFormData();
   const [isHidden, setIsHidden] = useState(true);
 
-  const submitHandler = (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("form submitted 🦁", formData);
+    await storage.setItem("local:configData", formData);
 
-    // reset form after submission
-    setFormData({
-      apiKey: '',
-      userInfo: '',
-      dataType: 'real',
-    })
+    toast.success("Configuration saved successfully!",{
+      style: {
+        padding: '4px 8px',
+      }
+    });
+    
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev: ConfigFormValue) => ({ ...prev, [name]: value }))
   };
-
-  console.log(formData);
 
   return (
     <form className='space-y-4' onSubmit={submitHandler}>
@@ -59,7 +59,7 @@ function ConfigForm() {
             <input type='radio' name='dataType' value='real'
               checked={formData?.dataType === "real"}
               onChange={handleChange}
-              defaultChecked className='w-4 h-4' />
+              className='w-4 h-4' />
             <span>Real Data</span>
           </label>
           <label className='flex items-center space-x-2 cursor-pointer'>
@@ -74,7 +74,6 @@ function ConfigForm() {
       </div>
 
       <button type='submit' className='w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition inline-flex items-center justify-center gap-2'><Save size={18} /> Save Configuration</button>
-
 
     </form>
   )
