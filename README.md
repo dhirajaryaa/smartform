@@ -25,7 +25,7 @@ An AI-powered smart form auto filler Chrome extension that enables one-click fil
 ## Installation
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/ai-form-filler.git
+   git clone https://github.com/dhirajaryaa/smartform.git
    ```
 2. Install dependencies:
    ```
