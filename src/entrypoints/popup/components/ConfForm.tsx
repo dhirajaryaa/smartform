@@ -1,3 +1,4 @@
+import { ExternalLink } from "lucide-react";
 import { ApiInput } from "./ApiInput"
 
 function ConfForm() {
@@ -21,7 +22,8 @@ function ConfForm() {
   return (
     <form className='space-y-4' onSubmit={submitHandler}>
       <div>
-        <label className='block text-sm font-medium mb-2' htmlFor="apiKey" >Gemini API Key</label>
+        <label className='block text-sm font-medium mb-2 ' htmlFor="apiKey" >
+          <a href="https://aistudio.google.com/api-keys" target="_blank" className="text-blue-400 hover:text-blue-600 inline-flex items-center gap-1 ">Gemini<ExternalLink size={16}/></a> API Key</label>
         <ApiInput />
         <p className='text-xs text-blue-300 mt-1'>Your Gemini AI API key for personalized data generation</p>
       </div>
