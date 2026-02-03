@@ -5,7 +5,6 @@ export default defineConfig({
   modules: ['@wxt-dev/module-react'],
 
   srcDir: 'src', // Source directory
-  imports : false, // Disable the #imports module
   
   manifest : ({browser, manifestVersion, mode, command}) => ({
     name: "Smart Form Auto Filler",

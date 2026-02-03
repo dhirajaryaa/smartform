@@ -1,27 +1,39 @@
 import { ApiInput } from "./ApiInput"
 
-
 function ConfForm() {
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission logic here
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const apiKey = formData.get('apiKey');
+    const userInfo = formData.get('userInfo');
+    const dataType = formData.get('dataType');
+
+    console.log({
+      apiKey,
+      userInfo,
+      dataType
+    });
+
+    // clear form after submission
+    (e.target as HTMLFormElement).reset();
   }
   return (
     <form className='space-y-4' onSubmit={submitHandler}>
       <div>
-        <label className='block text-sm font-medium mb-2'>Gemini API Key</label>
+        <label className='block text-sm font-medium mb-2' htmlFor="apiKey" >Gemini API Key</label>
         <ApiInput />
         <p className='text-xs text-blue-300 mt-1'>Your Gemini AI API key for personalized data generation</p>
       </div>
 
       <div>
-        <label className='block text-sm font-medium mb-2'>User Information</label>
-        <textarea placeholder='Enter user information' rows={4} className='w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-50 focus:outline-none focus:border-blue-500'></textarea>
+        <label className='block text-sm font-medium mb-2' htmlFor="userInfo">User Information</label>
+        <textarea placeholder='Enter user information' rows={4} className='w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-gray-50 focus:outline-none focus:border-blue-500' name="userInfo" id="userInfo"></textarea>
         <p className='text-xs text-blue-300 mt-1'>Provide your personal details for AI to generate contextually relevant data</p>
       </div>
 
       <div className='space-y-2'>
-        <label className='block text-sm font-medium'>Data Type</label>
+        <label className='block text-sm font-medium' htmlFor="dataType">Data Type</label>
         <div className='flex items-center space-x-4'>
           <label className='flex items-center space-x-2 cursor-pointer'>
             <input type='radio' name='dataType' value='real' defaultChecked className='w-4 h-4' />
