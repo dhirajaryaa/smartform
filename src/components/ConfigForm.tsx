@@ -27,7 +27,7 @@ function ConfigForm() {
   };
 
   return (
-    <form className='space-y-4' onSubmit={submitHandler}>
+    <form className='space-y-4 h-auto' onSubmit={submitHandler}>
       <div>
         <label className='block text-sm font-medium mb-2 ' htmlFor="apiKey" >
           <a href="https://aistudio.google.com/api-keys" target="_blank" className="text-blue-400 hover:text-blue-600 inline-flex items-center gap-1 ">Gemini<ExternalLink size={16} /></a> API Key</label>
@@ -36,7 +36,7 @@ function ConfigForm() {
             value={formData?.apiKey}
             onChange={handleChange}
           />
-          <button onClick={() => setIsHidden(!isHidden)} className="ml-2 px-3 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg text-gray-50">
+          <button type="button" onClick={() => setIsHidden(!isHidden)} className="ml-2 px-3 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg text-gray-50">
             {isHidden ? <Eye size={18} /> : <EyeOff size={18} />}
           </button>
         </div>
@@ -59,6 +59,7 @@ function ConfigForm() {
             <input type='radio' name='dataType' value='real'
               checked={formData?.dataType === "real"}
               onChange={handleChange}
+              defaultChecked
               className='w-4 h-4' />
             <span>Real Data</span>
           </label>

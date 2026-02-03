@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <>
-    <div className='w-100 max-w-md h-auto space-y-2 p-4 bg-gray-800 text-gray-50'>
+    <div className='w-100 max-w-md min-h-screen space-y-2 p-4 bg-gray-800 text-gray-50'>
 
       <h2 className='text-3xl font-extrabold text-center bg-linear-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent'>SmartForm Configure</h2>
       <p className='text-center text-sm text-gray-300'>Configure your form settings and preferences</p>
