@@ -8,13 +8,12 @@ export default defineContentScript({
     matches: ["https://www.themoviedb.org/*", "https://docs.google.com/forms/*"], //!testing purposes
     main(ctx) {
         if (ctx.isValid) {
-
             const heading = document.title || document.querySelector("h1")?.textContent;
 
             // run when click on context menu
             browser.runtime.onMessage.addListener((message) => {
+                // trigger to select form fields
                 if (message.action === "SMART_FILL") {
-                    console.log("🙏🙏🙏🙏🙏🙏");
 
                     const fields = getAllEditableFields().filter(isSupportedField);
 
@@ -22,36 +21,22 @@ export default defineContentScript({
                         console.warn("⚠️ No editable fields found");
                         return;
                     };
+                    console.log("Detected fields:", fields);
 
+                    //? extract meta data from fields
                     const metaList = fields.map(extractFieldMeta);
-
-                    // send message to background to process the data
+                    //? send message to background to process the data
                     browser.runtime.sendMessage({
                         action: "PROCESS_FIELDS",
                         data: {
                             heading, fields: metaList.map((meta, index) => ({
-                                id: generateFieldId(meta.label, meta.name, index),
+                                id: generateFieldId(index),
                                 ...meta
                             }))
                         }
-                    }, (response) => {
-                        console.log("Response from background:", response);
-                    })
-                }
-                //     if (message.type === "GET_EDITABLE_FIELDS") {
-                //         const fields = getAllEditableFields();
-                //         if (fields.length > 0) {
-                //             filteredInputs = fields.filter((field) => {
-                //                 const editableElement = getEditableElement(field);
-                //                 if (editableElement) {
-                //                     const fieldMeta = extractFieldMeta(editableElement);
-                //                     return SUPPORTED_INPUTS.includes(fieldMeta.type);
-                //                 }
-                //                 return false;
-                //             });
-                //         };
-                //     }
-                // });
+                    });
+                };
+
             });
 
         }

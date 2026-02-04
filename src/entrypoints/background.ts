@@ -1,7 +1,6 @@
 import { defineBackground, storage, browser } from "#imports";
 import { callGemini } from "@/lib/gemini";
 import { llmRealDataPrompt } from "@/utils/prompt";
-import { ConfigFormValue } from "@/hooks/useFormData";
 
 export default defineBackground(() => {
     //   banner print  
@@ -58,15 +57,26 @@ export default defineBackground(() => {
         //? listen for messages from content script
         browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             if (message.action === "PROCESS_FIELDS") {
-                const configData: ConfigFormValue | null = await storage.getItem("local:configData");
+                const userInfo = await storage.getItem("local:userInfo");
+                const geminiApiKey = await storage.getItem("local:geminiApiKey");
+
+                if (!geminiApiKey) {
+                    sendResponse({ status: "error", message: "No Gemini API key found. Please set it in the extension options." });
+                    return;
+                };
 
                 const prompt = llmRealDataPrompt
                     .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
-                    .replace("ADD_USER_DATA", JSON.stringify(configData?.userInfo ?? ""));
+                    .replace("ADD_USER_DATA", JSON.stringify(userInfo ?? ""));
 
-                await callGemini(prompt);
-                // send message to set value on input
-                sendResponse({ status: "completed" });
+                //! call gemini api with prompt
+                const llmRes = await callGemini(prompt);
+                // console.log(llmRes);
+
+                
+
+                //* send message to set value on input
+                sendResponse({ status: "done", data: llmRes });
             }
             return true;
         })

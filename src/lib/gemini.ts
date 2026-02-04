@@ -1,14 +1,14 @@
-import {storage} from "#imports"
-// const apiKey = import.meta.env.WXT_GEMINI_API_KEY;
+import {storage} from "#imports";
 
 export const callGemini = async (prompt: string) => {
     const apiKey = await storage.getItem("local:geminiApiKey");
-    
-    console.log(apiKey);
-
-    console.log(prompt);
-
+    if(!apiKey){
+        throw new Error("No API key found for Gemini");
+    }
     console.log(`total prompt is : ${prompt.length}`);
-    
 
+
+
+    
+return "Gemini response placeholder";
 }

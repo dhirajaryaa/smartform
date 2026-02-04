@@ -74,7 +74,6 @@ function cleanText(text: string): string {
 
 export function extractFieldMeta(el: HTMLElement): FieldMeta {
   const context = getFieldContext(el);
-
   return {
     context: el instanceof HTMLSelectElement ? el.getAttribute("name") || context : context,
     type: el.getAttribute("type") || el.tagName.toLowerCase(),
@@ -87,22 +86,9 @@ export function extractFieldMeta(el: HTMLElement): FieldMeta {
 
 
 export function generateFieldId(
-  label: string,
-  name: string | null,
   index: number
 ) {
-  const base =
-    label?.trim() ||
-    name?.trim() ||
-    "field";
-
-  const clean = base
-    .replace(/[^\w\s]/g, "")   // remove special chars
-    .replace(/\s+/g, "_")
-    .toLowerCase()
-    .slice(0, 40); // limit length
-
-  return `${clean}_${index}`;
+  return `${Date.now()}_${index}`;
 }
 
 
