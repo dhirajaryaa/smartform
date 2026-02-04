@@ -1,5 +1,7 @@
-export function getAllEditableFields(): HTMLElement[] {
-    const elements = document.querySelectorAll(`
+export function getEditableElement(form: HTMLFormElement | null): HTMLElement[] {
+  if (!form) return [];
+
+  const elements = form.querySelectorAll(`
    input,
     textarea,
     select,
@@ -7,5 +9,5 @@ export function getAllEditableFields(): HTMLElement[] {
     [role="textbox"]
   `);
 
-    return Array.from(elements) as HTMLElement[];
+  return Array.from(elements) as HTMLElement[];
 }

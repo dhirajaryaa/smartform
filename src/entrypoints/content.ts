@@ -1,4 +1,3 @@
-import { getAllEditableFields } from "@/utils/getEditableElement";
 import { extractFieldMeta, generateFieldId } from "@/utils/getFieldMeta";
 import { browser } from "#imports";
 import { isSupportedField } from "@/utils/getSupportedFiled";
@@ -15,7 +14,17 @@ export default defineContentScript({
                 // trigger to select form fields
                 if (message.action === "SMART_FILL") {
 
-                    const fields = getAllEditableFields().filter(isSupportedField);
+                    //! get active form 
+                    const field = document.activeElement as HTMLElement | null;
+                    const form = field?.closest("form") || field?.closest("[role='form']") || document.querySelector("form") || document.querySelector("[role='form']");
+
+                    //? highlight the form
+                    form?.style.setProperty("outline", "4px solid #007bff", "important");
+                    form?.style.setProperty("padding", "6px", "important");
+                    form?.style.setProperty("border-radius", "6px", "important");
+
+                    // get all editable fields in the form
+                    const fields = getEditableElement(form).filter(isSupportedField);
 
                     if (!fields.length) {
                         console.warn("⚠️ No editable fields found");
