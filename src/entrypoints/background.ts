@@ -31,14 +31,33 @@ export default defineBackground(() => {
 
         // run background tasks on click on context menu
         browser.contextMenus.onClicked.addListener(async (info, tab) => {
-                        
+            if (!tab?.id) return;
             if (info.menuItemId === "smartform-auto-fill") {
                 // send message to content script to fill the form
-                console.table(tab);
-                
-            }
-        });
-    })
+                browser.tabs.sendMessage(tab.id, {
+                    action: "SMART_FILL"
+                });
+                return;
+            };
 
+            // browser.contextMenus.onClicked.addListener(async (info, tab) => {
+
+            //     if (info.menuItemId === "smartform-auto-fill") {
+            //         // send message to content script to fill the form
+            //         browser.tabs.sendMessage(tab?.id!, {
+            //             action: "SMART_FILL"
+            //         });
+
+            //     }
+            // });
+        });
+
+        browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            if(message.action === "PROCESS_FIELDS") {
+                console.log("🥇Processing fields in background:", message.data);
+            }
+            return true;
+        })
+    });
 
 });
