@@ -22,5 +22,17 @@ export default defineConfig({
     permissions: ['storage', 'tabs', 'notifications', 'contextMenus', 'scripting', 'activeTab'],
     author: 'Dhiraj Arya',
     homepage_url: 'https://github.com/dhirajaryaa/smartform',
+    host_permissions: ['<all_urls>'],
+    background: {
+      service_worker: 'background.js',
+      type: 'module'
+    },
+    content_scripts: [
+      {
+        matches: ['<all_urls>'],
+        js: ['content-scripts/content.js'],
+        run_at: 'document_idle'
+      }
+    ]
   }),
 });

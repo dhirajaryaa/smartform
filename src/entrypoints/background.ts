@@ -59,7 +59,10 @@ export default defineBackground(() => {
             if (message.action === "PROCESS_FIELDS") {
                 // console.log("🥇Processing fields in background:", message.data);
 
-                const prompt = llmRealDataPrompt.replace("ADD_INPUT_FIELDS", JSON.stringify(message.data)).replace("ADD_USER_DATA", JSON.stringify(await getStorageItem("configData").then(data => data.userInfo || "")));
+                const prompt = llmRealDataPrompt
+                .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
+                .replace("ADD_USER_DATA", JSON.stringify(await getStorageItem("configData").then(data => data.userInfo) 
+                || "{}"));
 
                 await callGemini(prompt);
             }
