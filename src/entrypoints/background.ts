@@ -1,4 +1,7 @@
 import { defineBackground, storage, browser } from "#imports";
+import { getStorageItem } from "@/lib/storage";
+import { callGemini } from "@/lib/gemini";
+import { llmRealDataPrompt } from "@/utils/prompt";
 
 export default defineBackground(() => {
     //   banner print  
@@ -52,9 +55,13 @@ export default defineBackground(() => {
             // });
         });
 
-        browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-            if(message.action === "PROCESS_FIELDS") {
-                console.log("🥇Processing fields in background:", message.data);
+        browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+            if (message.action === "PROCESS_FIELDS") {
+                // console.log("🥇Processing fields in background:", message.data);
+
+                const prompt = llmRealDataPrompt.replace("ADD_INPUT_FIELDS", JSON.stringify(message.data)).replace("ADD_USER_DATA", JSON.stringify(await getStorageItem("configData").then(data => data.userInfo || "")));
+
+                await callGemini(prompt);
             }
             return true;
         })

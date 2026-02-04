@@ -1,5 +1,5 @@
 import { getAllEditableFields } from "@/utils/getEditableElement";
-import { extractFieldMeta } from "@/utils/getFieldMeta";
+import { extractFieldMeta, generateFieldId } from "@/utils/getFieldMeta";
 import { browser } from "#imports";
 import { isSupportedField } from "@/utils/getSupportedFiled";
 
@@ -9,14 +9,14 @@ export default defineContentScript({
     main(ctx) {
         if (ctx.isValid) {
 
-            const heading = document.title || document.querySelector("h1")?.textContent ;
+            const heading = document.title || document.querySelector("h1")?.textContent;
 
             // run when click on context menu
             browser.runtime.onMessage.addListener((message) => {
                 if (message.action === "SMART_FILL") {
                     console.log("🙏🙏🙏🙏🙏🙏");
 
-                    const fields = getAllEditableFields().filter(isSupportedField);                    
+                    const fields = getAllEditableFields().filter(isSupportedField);
 
                     if (!fields.length) {
                         console.warn("⚠️ No editable fields found");
@@ -28,7 +28,12 @@ export default defineContentScript({
                     // send message to background to process the data
                     browser.runtime.sendMessage({
                         action: "PROCESS_FIELDS",
-                        data: { heading, fields: metaList }
+                        data: {
+                            heading, fields: metaList.map((meta, index) => ({
+                                id: generateFieldId(meta.label, meta.name, index),
+                                ...meta
+                            }))
+                        }
                     }, (response) => {
                         console.log("Response from background:", response);
                     })
