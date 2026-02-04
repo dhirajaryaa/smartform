@@ -1,7 +1,7 @@
 import { defineBackground, storage, browser } from "#imports";
-import { getStorageItem } from "@/lib/storage";
 import { callGemini } from "@/lib/gemini";
 import { llmRealDataPrompt } from "@/utils/prompt";
+import { ConfigFormValue } from "@/hooks/useFormData";
 
 export default defineBackground(() => {
     //   banner print  
@@ -32,11 +32,11 @@ export default defineBackground(() => {
             contexts: ["editable"]
         });
 
-        // run background tasks on click on context menu
+        //? run background tasks on click on context menu
         browser.contextMenus.onClicked.addListener(async (info, tab) => {
             if (!tab?.id) return;
             if (info.menuItemId === "smartform-auto-fill") {
-                // send message to content script to fill the form
+                // send message to content script to get all input fields
                 browser.tabs.sendMessage(tab.id, {
                     action: "SMART_FILL"
                 });
@@ -55,16 +55,18 @@ export default defineBackground(() => {
             // });
         });
 
+        //? listen for messages from content script
         browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
             if (message.action === "PROCESS_FIELDS") {
-                // console.log("🥇Processing fields in background:", message.data);
+                const configData: ConfigFormValue | null = await storage.getItem("local:configData");
 
                 const prompt = llmRealDataPrompt
-                .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
-                .replace("ADD_USER_DATA", JSON.stringify(await getStorageItem("configData").then(data => data.userInfo) 
-                || "{}"));
+                    .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
+                    .replace("ADD_USER_DATA", JSON.stringify(configData?.userInfo ?? ""));
 
                 await callGemini(prompt);
+                // send message to set value on input
+                sendResponse({ status: "completed" });
             }
             return true;
         })

@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { storage } from '#imports';
+import { ConfigFormValue, storage } from '#imports';
 
 export interface ConfigFormValue {
     apiKey: string;
     userInfo: string;
-    dataType: 'real' | 'random';
 };
 
 const tempData: ConfigFormValue = {
@@ -17,27 +16,31 @@ const tempData: ConfigFormValue = {
     Education: Bachelor's Degree in Computer Science
     Occupation: Software Developer at TechCorp
     Interests: Hiking, Photography, Traveling
-    Goal: Become a proficient full-stack developer and contribute to open-source projects.`,
-    dataType: "real"
+    Goal: Become a proficient full-stack developer and contribute to open-source projects.`
 }
 
 function useFormData() {
     const [formData, setFormData] = useState<ConfigFormValue>({
         apiKey: tempData.apiKey,
-        userInfo: tempData.userInfo,
-        dataType: tempData.dataType,
+        userInfo: tempData.userInfo
     });
 
     useEffect(() => {
         async function getDataFromStorage() {
-            const data = await storage.getItem('local:configData');
-            return data as ConfigFormValue;
+            // const data = await storage.getItem('local:configData');
+            const apiKey = await storage.getItem('local:geminiApiKey');
+            const userInfo = await storage.getItem('local:userInfo');
+
+            return { apiKey, userInfo };
         };
-        getDataFromStorage().then(data => {
-            if (data) {
-                setFormData(data);
+        getDataFromStorage().then(({ apiKey, userInfo }) => {
+            if (apiKey || userInfo) {
+                setFormData({
+                    apiKey: apiKey || "",
+                    userInfo: userInfo || ""
+                });
             }
-        })
+        });
     }, []);
 
     return {
