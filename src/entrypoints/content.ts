@@ -3,8 +3,7 @@ import { isSupportedField } from "@/utils/getSupportedFiled";
 import { getFieldMeta } from "@/utils/getFieldMeta";
 
 export default defineContentScript({
-    //? matches: ['*://*/*'],// production url 
-    matches: ["https://www.themoviedb.org/*", "https://docs.google.com/forms/*", "https://dhirajarya.xyz/contact"], //!testing purposes
+     matches: ['*://*/*'],// production url 
     main(ctx) {
 
         const heading = document.title || document.querySelector("h1")?.textContent;
