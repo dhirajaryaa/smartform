@@ -53,6 +53,34 @@ export default defineContentScript({
                 };
 
                 // set response to field 
+                if (response?.status === "done") {
+                    const data =
+                        typeof response.data === "string"
+                            ? JSON.parse(response.data)
+                            : response.data;
+
+                    console.log(data);
+
+
+                    fields?.forEach((el: HTMLElement) => {
+                        if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+                            const key = el.name || el.id;
+
+                            if (key && data[key] !== undefined) {
+                                el.value = data[key];
+
+                                el.dispatchEvent(new Event("input", { bubbles: true }));
+                                el.dispatchEvent(new Event("change", { bubbles: true }));
+                            }
+                        }
+                    });
+
+                    console.log(fields);
+
+                }
+
+
+
             };
         });
 

@@ -51,7 +51,7 @@ export default defineBackground(() => {
                 const geminiApiKey = await storage.getItem("local:geminiApiKey");
                 if (!geminiApiKey) {
                     sendResponse({ status: "error", message: "No Gemini API key provided" });
-                    return ;
+                    return;
                 };
                 // call ai and send res 
                 const prompt = llmRealDataPrompt

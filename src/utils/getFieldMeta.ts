@@ -1,11 +1,12 @@
 export function getFieldMeta(fields: HTMLElement[]) {
-    return fields.map((filed: HTMLElement) => {
-        if (filed instanceof HTMLInputElement) {
-            const label = (filed.labels?.[0]?.textContent || filed.closest("label")?.textContent || "").replace(/\s+/g, " ").trim();
+    return fields.map((field: HTMLElement) => {
+        if (field instanceof HTMLInputElement ||
+            field instanceof HTMLTextAreaElement) {
+            const label = (field.labels?.[0]?.textContent || field.closest("label")?.textContent || "").replace(/\s+/g, " ").trim();
             return {
                 label: label,
-                type: filed.type || "text",
-                name: filed.name || "",
+                type: field.type || "text",
+                name: field.name || "",
             };
         }
         return null; // or handle non-input elements as needed
