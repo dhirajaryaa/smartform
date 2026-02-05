@@ -59,9 +59,6 @@ export default defineContentScript({
                             ? JSON.parse(response.data)
                             : response.data;
 
-                    console.log(data);
-
-
                     fields?.forEach((el: HTMLElement) => {
                         if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
                             const key = el.name || el.id;
@@ -75,7 +72,10 @@ export default defineContentScript({
                         }
                     });
 
-                    console.log(fields);
+                    //? reset form styling 
+                    form?.style.removeProperty("border");
+                    form?.style.removeProperty("padding");
+                    form?.style.removeProperty("border-radius");
 
                 }
 
