@@ -60,7 +60,18 @@ export default defineBackground(() => {
 
                 const llmRes = await callGemini(prompt);
 
-                sendResponse({ status: "done", data: llmRes });
+                if (!llmRes.success) {
+                    sendResponse({
+                        status: "error",
+                        message: llmRes.error
+                    });
+                    return;
+                }
+
+                sendResponse({
+                    status: "done",
+                    data: llmRes.data
+                });
             })();
             return true; //? important for async response
         }
