@@ -61,6 +61,8 @@ export default defineBackground(() => {
                 const geminiApiKey = await storage.getItem("local:geminiApiKey");
 
                 if (!geminiApiKey) {
+                    console.error("No Gemini API key found.");
+
                     sendResponse({ status: "error", message: "No Gemini API key found. Please set it in the extension options." });
                     return;
                 };
@@ -71,9 +73,6 @@ export default defineBackground(() => {
 
                 //! call gemini api with prompt
                 const llmRes = await callGemini(prompt);
-                // console.log(llmRes);
-
-                
 
                 //* send message to set value on input
                 sendResponse({ status: "done", data: llmRes });

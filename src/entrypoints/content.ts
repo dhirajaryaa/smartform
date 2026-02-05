@@ -1,10 +1,10 @@
-import { extractFieldMeta, generateFieldId } from "@/utils/getFieldMeta";
 import { browser } from "#imports";
 import { isSupportedField } from "@/utils/getSupportedFiled";
+import { getFieldMeta } from "@/utils/getFieldMeta";
 
 export default defineContentScript({
     //? matches: ['*://*/*'],// production url 
-    matches: ["https://www.themoviedb.org/*", "https://docs.google.com/forms/*"], //!testing purposes
+    matches: ["https://www.themoviedb.org/*", "https://docs.google.com/forms/*", "https://dhirajarya.xyz/contact"], //!testing purposes
     main(ctx) {
         if (ctx.isValid) {
             const heading = document.title || document.querySelector("h1")?.textContent;
@@ -19,7 +19,7 @@ export default defineContentScript({
                     const form = field?.closest("form") || field?.closest("[role='form']") || document.querySelector("form") || document.querySelector("[role='form']");
 
                     //? highlight the form
-                    form?.style.setProperty("outline", "4px solid #007bff", "important");
+                    form?.style.setProperty("border", "4px solid #007bff", "important");
                     form?.style.setProperty("padding", "6px", "important");
                     form?.style.setProperty("border-radius", "6px", "important");
 
@@ -30,20 +30,21 @@ export default defineContentScript({
                         console.warn("⚠️ No editable fields found");
                         return;
                     };
-                    console.log("Detected fields:", fields);
 
                     //? extract meta data from fields
-                    const metaList = fields.map(extractFieldMeta);
+                    const inputMetaData = getFieldMeta(fields);
+
                     //? send message to background to process the data
                     browser.runtime.sendMessage({
                         action: "PROCESS_FIELDS",
                         data: {
-                            heading, fields: metaList.map((meta, index) => ({
-                                id: generateFieldId(index),
-                                ...meta
-                            }))
+                            heading, fields: inputMetaData
                         }
                     });
+
+                    // Todo: 1. pass to llm 
+                    // Todo: 2. set value on form 
+                    // Todo: 3. remove styling from form 
                 };
 
             });

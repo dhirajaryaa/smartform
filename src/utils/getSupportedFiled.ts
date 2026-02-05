@@ -17,8 +17,7 @@ export function isSupportedField(el: HTMLElement): boolean {
             "email",
             "tel",
             "number",
-            "url",
-            "search"
+            "url"
         ];
 
         if (!allowedTypes.includes(type)) return false;
