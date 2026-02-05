@@ -13,6 +13,7 @@ stats.html
 stats-*.json
 .wxt
 .env
+dist
 web-ext.config.ts
 
 # Editor directories and files

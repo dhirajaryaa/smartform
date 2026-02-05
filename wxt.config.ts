@@ -6,6 +6,8 @@ export default defineConfig({
 
   // Source directory
   srcDir: 'src',
+  // output directory
+  outDir: "dist",
 
   // import alias for src directory
   alias: {
