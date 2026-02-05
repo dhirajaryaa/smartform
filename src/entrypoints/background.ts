@@ -13,72 +13,57 @@ export default defineBackground(() => {
 
     console.info("smart form working📃....");
 
-    // main code logic here
+    //! main code logic here
     browser.runtime.onInstalled.addListener(async (details) => {
         //log installation details
         if (details.reason === "install") {
             await storage.setItem("local:installDate", new Date().toDateString());
-            await storage.setItem("local:lastUpdate", new Date().toDateString());
         }
-        else if (details.reason === "update") {
-            await storage.setItem("local:lastUpdate", new Date().toDateString());
+    });
+
+    //! create context menu
+    browser.contextMenus.create({
+        id: "smartform-auto-fill",
+        title: "Fill with SmartForm",
+        contexts: ["editable"]
+    });
+
+    //? trigger message to get access all input
+    browser.contextMenus.onClicked.addListener((info, tab) => {
+        if (!tab?.id) return;
+        if (info.menuItemId === "smartform-auto-fill") {
+            // send message to content script to get all input fields
+            browser.tabs.sendMessage(tab.id, {
+                action: "SMART_FILL"
+            });
+            return;
         };
+    });
 
-        //create context menu
-        browser.contextMenus.create({
-            id: "smartform-auto-fill",
-            title: "Fill with SmartForm",
-            contexts: ["editable"]
-        });
-
-        //? run background tasks on click on context menu
-        browser.contextMenus.onClicked.addListener(async (info, tab) => {
-            if (!tab?.id) return;
-            if (info.menuItemId === "smartform-auto-fill") {
-                // send message to content script to get all input fields
-                browser.tabs.sendMessage(tab.id, {
-                    action: "SMART_FILL"
-                });
-                return;
-            };
-
-            // browser.contextMenus.onClicked.addListener(async (info, tab) => {
-
-            //     if (info.menuItemId === "smartform-auto-fill") {
-            //         // send message to content script to fill the form
-            //         browser.tabs.sendMessage(tab?.id!, {
-            //             action: "SMART_FILL"
-            //         });
-
-            //     }
-            // });
-        });
-
-        //? listen for messages from content script
-        browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-            if (message.action === "PROCESS_FIELDS") {
+    //? listen for messages from content script
+    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        //* process field
+        if (message.action === "PROCESS_FIELDS") {
+            (async () => {
+                // check user info 
                 const userInfo = await storage.getItem("local:userInfo");
+                // check api key 
                 const geminiApiKey = await storage.getItem("local:geminiApiKey");
-
                 if (!geminiApiKey) {
-                    console.error("No Gemini API key found.");
-
-                    sendResponse({ status: "error", message: "No Gemini API key found. Please set it in the extension options." });
-                    return;
+                    sendResponse({ status: "error", message: "No Gemini API key provided" });
+                    return ;
                 };
-
+                // call ai and send res 
                 const prompt = llmRealDataPrompt
                     .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
                     .replace("ADD_USER_DATA", JSON.stringify(userInfo ?? ""));
 
-                //! call gemini api with prompt
                 const llmRes = await callGemini(prompt);
 
-                //* send message to set value on input
                 sendResponse({ status: "done", data: llmRes });
-            }
-            return true;
-        })
+            })();
+            return true; //? important for async response
+        }
     });
 
 });
