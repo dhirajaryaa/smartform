@@ -6,6 +6,9 @@ SmartForm is a Chrome extension that automatically detects and fills web forms w
 
 ---
 
+## Demo
+[Extension Demo Link](https://www.youtube.com/watch?v=Wan9QWfXF-Y&feature=youtu.be)
+
 ## ❗ Problem
 
 Users repeatedly fill out forms across:
