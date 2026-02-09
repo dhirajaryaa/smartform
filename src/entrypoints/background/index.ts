@@ -18,12 +18,12 @@ export default defineBackground(() => {
         //log installation details
         if (details.reason === "install") {
             await storage.setItem("local:installDate", new Date().toDateString());
-        }
+        };
     });
 
     //! create context menu
     browser.contextMenus.create({
-        id: "smartform-auto-fill",
+        id: "smartform-auto-filler",
         title: "Fill with SmartForm",
         contexts: ["editable"]
     });
@@ -31,10 +31,10 @@ export default defineBackground(() => {
     //? trigger message to get access all input
     browser.contextMenus.onClicked.addListener((info, tab) => {
         if (!tab?.id) return;
-        if (info.menuItemId === "smartform-auto-fill") {
+        if (info.menuItemId === "smartform-auto-filler") {
             // send message to content script to get all input fields
             browser.tabs.sendMessage(tab.id, {
-                action: "SMART_FILL"
+                action: "get-form-fields"
             });
             return;
         };
