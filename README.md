@@ -1,5 +1,8 @@
 # 🚀 SmartForm – AI-Powered Smart Form Auto Filler
 
+> [!IMPORTANT]
+> currently work in preview version
+
 > Fill any form instantly with intelligent, AI-generated data.
 
 SmartForm is a Chrome extension that automatically detects and fills web forms with context-aware data using AI. It eliminates repetitive typing and saves time when signing up, applying, testing, or submitting forms online.
