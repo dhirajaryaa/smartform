@@ -1,5 +1,5 @@
 import { defineBackground, storage, browser } from "#imports";
-import { callGemini, llmResponse } from "@/lib/gemini";
+import { callAI } from "@/ai/adapter";
 import { llmRealDataPrompt } from "@/utils/prompt";
 
 export default defineBackground(() => {
@@ -18,6 +18,8 @@ export default defineBackground(() => {
         //log installation details
         if (details.reason === "install") {
             await storage.setItem("local:installDate", new Date().toDateString());
+            await storage.setItem("local:provider", 'groqai');
+            await storage.setItem("local:apiKey", '');
         };
     });
 
@@ -47,12 +49,6 @@ export default defineBackground(() => {
             (async () => {
                 // check user info 
                 const userInfo = await storage.getItem("local:userInfo");
-                // check api key 
-                const geminiApiKey = await storage.getItem("local:geminiApiKey");
-                if (!geminiApiKey) {
-                    sendResponse({ status: "error", message: "No Gemini API key provided" });
-                    return;
-                };
                 // call ai and send res 
                 const prompt = llmRealDataPrompt
                     .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
@@ -61,12 +57,12 @@ export default defineBackground(() => {
                 // console.log(prompt);
                 console.log("total token count:", prompt.length);
 
-                const llmRes = await callGemini(prompt);
+                const llmRes = await callAI(prompt);
 
                 if (!llmRes.success) {
                     sendResponse({
                         status: "error",
-                        message: llmRes.error
+                        message: llmRes?.message
                     });
                     return;
                 }
