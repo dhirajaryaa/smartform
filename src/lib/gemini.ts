@@ -1,5 +1,12 @@
 import { storage } from "#imports";
 
+export interface llmResponse {
+  success: true | false;
+  data?: string;
+  message?: string;
+  errorCode?: string | number;
+};
+
 export const callGemini = async (prompt: string) => {
   try {
     const apiKey = await storage.getItem("local:geminiApiKey");
