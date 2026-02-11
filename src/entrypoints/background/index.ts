@@ -1,5 +1,5 @@
 import { defineBackground, storage, browser } from "#imports";
-import { callGemini } from "@/lib/gemini";
+import { callGemini, llmResponse } from "@/lib/gemini";
 import { llmRealDataPrompt } from "@/utils/prompt";
 
 export default defineBackground(() => {
@@ -43,7 +43,7 @@ export default defineBackground(() => {
     //? listen for messages from content script
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         //* process field
-        if (message.action === "PROCESS_FIELDS") {
+        if (message.action === "process-field-data") {
             (async () => {
                 // check user info 
                 const userInfo = await storage.getItem("local:userInfo");
@@ -57,6 +57,9 @@ export default defineBackground(() => {
                 const prompt = llmRealDataPrompt
                     .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
                     .replace("ADD_USER_DATA", JSON.stringify(userInfo ?? ""));
+
+                // console.log(prompt);
+                console.log("total token count:", prompt.length);
 
                 const llmRes = await callGemini(prompt);
 
