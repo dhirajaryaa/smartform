@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import "@/assets/style.css";
 import ConfigForm from '@/components/ConfigForm';
 import Links from '@/components/Links';
-import { CircleUser, Github, Linkedin, Twitter } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

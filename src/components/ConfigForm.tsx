@@ -12,7 +12,7 @@ function ConfigForm() {
     e.preventDefault();
 
     await storage.setItem("local:userInfo", formData.userInfo);
-    await storage.setItem("local:geminiApiKey", formData.apiKey);
+    await storage.setItem("local:apiKey", formData.apiKey);
     await storage.setItem("local:provider", formData.provider);
 
     toast.success("Configuration saved successfully!", {
@@ -42,8 +42,6 @@ function ConfigForm() {
         >
           <option value={'groqai'}>Groq</option>
           <option value={'gemini'}>Gemini</option>
-          <option value={'openai'}>OpenAI</option>
-          <option value={'anthropic'}>Anthropic</option>
         </select>
         <p className='text-xs text-blue-300 mt-1'>Choose provider to generate smarter responses.</p>
       </div>

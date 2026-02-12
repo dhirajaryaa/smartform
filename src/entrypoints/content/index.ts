@@ -1,6 +1,5 @@
 import { browser } from "#imports";
 import { supportedField } from "@/utils/getSupportedField";
-import { getFieldMeta } from "@/utils/getFieldMeta";
 import { getActiveForm } from "@/lib/getActiveForm";
 import { setFormActiveStyle } from "@/utils/formStyle";
 import { getEditableField } from "@/utils/getEditableField";

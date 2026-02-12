@@ -3,6 +3,7 @@ import { ConfigFormValue, storage } from '#imports';
 
 export interface ConfigFormValue {
     apiKey: string;
+    provider: string;
     userInfo: string;
 };
 

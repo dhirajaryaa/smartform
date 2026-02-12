@@ -54,9 +54,6 @@ export default defineBackground(() => {
                     .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
                     .replace("ADD_USER_DATA", JSON.stringify(userInfo ?? ""));
 
-                // console.log(prompt);
-                console.log("total token count:", prompt.length);
-
                 const llmRes = await callAI(prompt);
 
                 if (!llmRes.success) {
