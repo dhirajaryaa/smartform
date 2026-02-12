@@ -17,7 +17,7 @@ function useFormData() {
     useEffect(() => {
         async function getDataFromStorage() {
             // const data = await storage.getItem('local:configData');
-            const apiKey = await storage.getItem('local:geminiApiKey');
+            const apiKey = await storage.getItem('local:apiKey');
             const userInfo = await storage.getItem('local:userInfo');
             const provider = await storage.getItem('local:provider');
 

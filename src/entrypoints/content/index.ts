@@ -5,10 +5,10 @@ import { setFormActiveStyle } from "@/utils/formStyle";
 import { getEditableField } from "@/utils/getEditableField";
 import { getFieldContext } from "@/utils/getFieldContext";
 import { setFieldValue } from "@/lib/setFieldValue";
+import { showToast } from "./toast";
 
 export default defineContentScript({
-    // Todo: matches: ['*://*/*'],// production url 
-    matches: ["https://www.themoviedb.org/*", "https://docs.google.com/forms/*"], //!testing purposes
+    matches: ["<all_urls>"],
     main(ctx) {
         // get site heading 
         const heading = document.title || document.querySelector("h1")?.textContent;
@@ -23,8 +23,6 @@ export default defineContentScript({
                     //! get active form 
                     const form = getActiveForm();
                     if (form) {
-                        // Todo - set styling for better ux.
-                        setFormActiveStyle(form);
 
                         // Todo - get all editable filed;
                         // Todo - filter fields pick only supported;
@@ -42,10 +40,15 @@ export default defineContentScript({
                         }).filter(Boolean);
 
                         if (formContext.length === 0) {
-                            console.warn("SmartForm: No valid fields detected");
-                            // showToast("⚠ No fillable fields found", "error");
+                            showToast({
+                                message: "SmartForm: No valid form detected",
+                                type: "error",
+                            });
                             return;
                         }
+
+                        // Todo - set styling for better ux.
+                        setFormActiveStyle(form);
 
                         // Todo - send to llm;
                         const response = await browser.runtime.sendMessage({
@@ -55,8 +58,7 @@ export default defineContentScript({
 
                         // Todo - show Response if error alert it;
                         if (response.status === 'error') {
-                            console.log("Error happen", response.message);
-                            // alert(response.message);
+                            showToast({ message: response.message, type: 'error' })
                         };
 
                         // Todo - show Response if succuss so set field id based value

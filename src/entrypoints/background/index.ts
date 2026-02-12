@@ -47,27 +47,52 @@ export default defineBackground(() => {
         //* process field
         if (message.action === "process-field-data") {
             (async () => {
-                // check user info 
-                const userInfo = await storage.getItem("local:userInfo");
-                // call ai and send res 
-                const prompt = llmRealDataPrompt
-                    .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
-                    .replace("ADD_USER_DATA", JSON.stringify(userInfo ?? ""));
+                try {
+                    // check user info 
+                    const userInfo = await storage.getItem("local:userInfo");
+                    const provider = await storage.getItem("local:provider");
+                    const apiKey = await storage.getItem("local:apiKey");
 
-                const llmRes = await callAI(prompt);
+                    if (!provider) {
+                        sendResponse({
+                            status: "error",
+                            message: "AI Provider not selected"
+                        });
+                        return;
+                    };
 
-                if (!llmRes.success) {
+                    if (!apiKey) {
+                        sendResponse({
+                            status: "error",
+                            message: "API key not found!"
+                        });
+                        return;
+                    };
+                    // call ai and send res 
+                    const prompt = llmRealDataPrompt
+                        .replace("ADD_INPUT_FIELDS", JSON.stringify(message.data))
+                        .replace("ADD_USER_DATA", JSON.stringify(userInfo ?? ""));
+
+                    const llmRes = await callAI(prompt);
+
+                    if (!llmRes.success) {
+                        sendResponse({
+                            status: "error",
+                            message: llmRes?.message
+                        });
+                        return;
+                    }
+
+                    sendResponse({
+                        status: "done",
+                        data: llmRes.data
+                    });
+                } catch (error) {
                     sendResponse({
                         status: "error",
-                        message: llmRes?.message
+                        message: "Fail to call LLM"
                     });
-                    return;
                 }
-
-                sendResponse({
-                    status: "done",
-                    data: llmRes.data
-                });
             })();
             return true; //? important for async response
         }
