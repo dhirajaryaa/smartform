@@ -18,7 +18,7 @@ export default defineConfig({
   manifest: ({ browser, manifestVersion, mode, command }) => ({
     name: "SmartForm Auto Filler",
     short_name: "SmartForm Auto Filler",
-    version: '1.0.0',
+    version: '1.1.0',
     manifest_version: manifestVersion,
     description: 'An AI-powered smart form auto filler Chrome extension that enables one-click filling of any form with relevant or random data, powered by AI.',
     permissions: ['storage', 'tabs', 'notifications', 'contextMenus', 'scripting', 'activeTab'],

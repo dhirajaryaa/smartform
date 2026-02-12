@@ -1,4 +1,4 @@
-export function isSupportedField(el: HTMLElement): boolean {
+export function supportedField(el: HTMLElement): boolean {
     // Skip invisible elements
     const style = window.getComputedStyle(el);
     if (style.display === "none" || style.visibility === "hidden") {

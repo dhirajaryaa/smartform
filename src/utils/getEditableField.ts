@@ -1,4 +1,4 @@
-export function getEditableElement(form: HTMLFormElement | null): HTMLElement[] {
+export function getEditableField(form: HTMLFormElement | null): HTMLElement[] {
   if (!form) return [];
 
   const elements = form.querySelectorAll(`

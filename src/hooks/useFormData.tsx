@@ -3,28 +3,32 @@ import { ConfigFormValue, storage } from '#imports';
 
 export interface ConfigFormValue {
     apiKey: string;
+    provider: string;
     userInfo: string;
 };
 
 function useFormData() {
     const [formData, setFormData] = useState<ConfigFormValue>({
         apiKey: '',
-        userInfo: ''
+        userInfo: '',
+        provider: ''
     });
 
     useEffect(() => {
         async function getDataFromStorage() {
             // const data = await storage.getItem('local:configData');
-            const apiKey = await storage.getItem('local:geminiApiKey');
+            const apiKey = await storage.getItem('local:apiKey');
             const userInfo = await storage.getItem('local:userInfo');
+            const provider = await storage.getItem('local:provider');
 
-            return { apiKey, userInfo };
+            return { apiKey, userInfo, provider };
         };
-        getDataFromStorage().then(({ apiKey, userInfo }) => {
-            if (apiKey || userInfo) {
+        getDataFromStorage().then(({ apiKey, userInfo, provider }) => {
+            if (apiKey || userInfo || provider) {
                 setFormData({
                     apiKey: apiKey || "",
-                    userInfo: userInfo || ""
+                    userInfo: userInfo || "",
+                    provider: provider || ""
                 });
             }
         });
