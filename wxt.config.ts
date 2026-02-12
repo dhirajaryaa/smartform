@@ -35,6 +35,19 @@ export default defineConfig({
         js: ['content-scripts/content.js'],
         run_at: 'document_idle'
       }
-    ]
+    ],
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "smartform@dhirajarya.dev",
+        "data_collection_permissions": {
+          "required": [
+            "personalCommunications"
+          ]
+        }
+      }
+    }
+
+
+
   }),
 });
