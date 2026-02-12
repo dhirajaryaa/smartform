@@ -1,40 +1,41 @@
 # 🚀 SmartForm – AI-Powered Smart Form Auto Filler
 
-> [!IMPORTANT]
-> currently work in preview version
+> Fill web forms instantly with intelligent, AI-generated data.
 
-> Fill any form instantly with intelligent, AI-generated data.
-
-SmartForm is a Chrome extension that automatically detects and fills web forms with context-aware data using AI. It eliminates repetitive typing and saves time when signing up, applying, testing, or submitting forms online.
+SmartForm is a browser extension that automatically detects and fills online forms using AI. It eliminates repetitive typing and helps users complete forms faster during testing, signup flows, surveys, and applications.
 
 ---
 
-## Demo
-[Extension Demo Link](https://www.youtube.com/watch?v=Wan9QWfXF-Y&feature=youtu.be)
+## 🎬 Demo
 
-## ❗ Problem
+📺 [Watch Demo on YouTube](https://www.youtube.com/watch?v=Wan9QWfXF-Y&feature=youtu.be)
 
-Users repeatedly fill out forms across:
+---
+
+## ❗ The Problem
+
+Users repeatedly fill forms across:
 
 * Login pages
 * Signup forms
 * Contact forms
 * Surveys
-* Applications
+* Job applications
+* Registration pages
 
-Typing the same information again and again is repetitive, boring, and inefficient.
+Typing the same details again and again is repetitive, slow, and inefficient.
 
 ---
 
-## 💡 Solution
+## 💡 The Solution
 
-SmartForm enables **one-click intelligent form filling** using AI.
+SmartForm enables **one-click intelligent form filling** powered by AI.
 
-Instead of using random dummy data, it:
+Instead of inserting random dummy data, SmartForm:
 
 * Understands field context
-* Generates meaningful values
 * Matches labels intelligently
+* Generates meaningful values
 * Preserves user privacy
 
 ---
@@ -43,30 +44,44 @@ Instead of using random dummy data, it:
 
 ### 🖱 One-Click Auto Fill
 
-* Detects input fields automatically
-* Fills forms instantly
-* Supports native HTML inputs (`label`, `name`, `id`)
-
-### 🧠 AI-Powered Personalization
-
-* Context-aware value generation
-* More realistic than random generators
-* Smart field matching
-
-### 🔒 Privacy First
-
-* User data stored locally
-* API keys stored in browser local storage
-* No external database
-* No tracking
+* Detects visible input fields automatically
+* Supports `input`, `textarea`, and `select`
+* Works with most native HTML forms
+* No automatic submission (user stays in control)
 
 ---
 
-## ⚠️ Current Limitation (v1.0.0)
+### 🤖 AI Providers (v1.1)
 
-* Works primarily on native form structures
-* Limited support for SPA or `contenteditable` fields
-* Advanced frameworks (React/Angular dynamic forms) partially supported
+* ✅ Groq - "llama-3.3-70b-versatile"
+* ✅ Google Gemini - "gemini-2.5-flash"
+
+Users configure their own API key inside extension settings.
+
+---
+
+### 🔒 Privacy First
+
+* No tracking
+* No analytics
+* No external database
+* API keys stored locally in browser storage
+* Data sent only to user-selected AI provider
+
+SmartForm does **not** store or sell user data.
+
+---
+
+## ⚠️ Google Forms Support
+
+SmartForm currently supports **~80% of Google Forms**.
+
+Supported:
+
+* Short answer
+* Paragraph
+
+Some complex validation or conditional logic may require manual review.
 
 ---
 
@@ -74,150 +89,44 @@ Instead of using random dummy data, it:
 
 * ✉️ Temporary Email Generator
 * 📱 Temporary Phone Number Generator
-* 🧠 Full SPA / Google Form support
-* 🎯 Better context extraction for div-based forms
-* ⚙️ Field customization settings
-* 💾 Save multiple user profiles
+* 💾 Multiple user profiles
 
 ---
 
 ## 🛠 Tech Stack
 
-* **WXT Framework** – Modern Chrome extension development
-* **TypeScript** – Type safety & scalability
-* **Tailwind CSS** – Clean UI styling
-* **Gemini AI API** – AI-based data generation
+* **WXT Framework**
+* **TypeScript**
+* **Tailwind CSS**
+* **Groq API**
+* **Google Gemini API**
 
 ---
 
 ## 📦 Installation
 
-You can install SmartForm in two ways:
+### Install from Release
 
----
-
-# 📦 Install from Release (For Normal Users)
-
-### 1️⃣ Download Release ZIP
-
-* Go to GitHub repository
-* Open **Releases**
-* Download latest `.zip`
-
-### 2️⃣ Extract ZIP
-
-* Right-click → Extract
-* Or extract to any folder
-
-### 3️⃣ Add to Chrome
-
-1. Open `chrome://extensions/`
-2. Enable **Developer Mode**
-3. Click **Load Unpacked**
-4. Select the extracted folder
-
-Extension is ready to use ✅
-
----
-
-# 🧑‍💻 Development Setup (For Developers)
-
-### 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/dhirajaryaa/smartform.git
-cd smartform
-```
-
-### 2️⃣ Install Dependencies
-
-```bash
-npm install
-```
-
-### 3️⃣ Run Development Mode
-
-```bash
-npm run dev
-```
-
-### 4️⃣ Build for Production
-
-```bash
-npm run build
-```
-
-### 5️⃣ Load Extension in Chrome
-
-1. Open:
-
-```
-chrome://extensions/
-```
-
-2. Enable **Developer Mode**
-3. Click **Load Unpacked**
-4. Select:
-
-   * `.output/chrome-mv3/` (dev)
-   * `dist/` (production build)
-
----
-
-
-## 🎯 How It Works
-
-1. User clicks the extension
-2. Content script collects editable fields
-3. Field metadata (id, label, name, placeholder) is extracted
-4. Background script sends structured prompt to Gemini API
-5. AI returns structured JSON
-6. Safe JSON parsing fills fields automatically
+1. Download latest release ZIP
+2. Extract the file
+3. Open `chrome://extensions/`
+4. Enable Developer Mode
+5. Click Load Unpacked
+6. Select extracted folder
 
 ---
 
 ## 🔐 Data Privacy
 
-* All saved user data remains in browser storage
-* API key stored locally
+* All settings stored locally
+* API keys never stored remotely
 * No remote logging
 * No cloud storage
 
-SmartForm is designed with privacy as a core principle.
-
----
-
-## 🧪 Ideal Use Cases
-
-* QA testing forms
-* Rapid signup testing
-* Demo environments
-* Developers testing validation logic
-* Power users filling repetitive forms
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome!
-
-1. Fork the repo
-2. Create feature branch
-3. Commit changes
-4. Open Pull Request
-
-Let’s make form filling smarter together 🚀
+Privacy is a core design principle.
 
 ---
 
 ## 📄 License
 
 MIT License
-Free to use, modify, and distribute.
-
----
-
-## 👨‍💻 Author
-
-Built with focus and persistence by **Dhiraj Arya**
-
