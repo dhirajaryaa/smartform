@@ -12,7 +12,7 @@ export interface ProviderConfig {
 
 export const aiModal: Record<ProviderName, string> = {
   openai: "gpt-4o-mini",
-  groqai: "llama-3.3-70b-versatile",
+  groqai: "openai/gpt-oss-20b",
   gemini: "gemini-2.5-flash",
   anthropic: "claude-3-haiku"
 };
