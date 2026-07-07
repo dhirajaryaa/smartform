@@ -53,7 +53,7 @@ Instead of inserting random dummy data, SmartForm:
 
 ### 🤖 AI Providers (v1.1)
 
-* ✅ Groq - "llama-3.3-70b-versatile"
+* ✅ Groq - "openai/gpt-oss-20b"
 * ✅ Google Gemini - "gemini-2.5-flash"
 
 Users configure their own API key inside extension settings.
@@ -82,14 +82,6 @@ Supported:
 * Paragraph
 
 Some complex validation or conditional logic may require manual review.
-
----
-
-## 🚧 Upcoming Features
-
-* ✉️ Temporary Email Generator
-* 📱 Temporary Phone Number Generator
-* 💾 Multiple user profiles
 
 ---
 
